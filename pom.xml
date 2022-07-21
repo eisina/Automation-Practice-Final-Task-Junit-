@@ -7,6 +7,18 @@
     <groupId>org.example</groupId>
     <artifactId>AutomationPracticeFinalTask</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
     <properties>
@@ -14,6 +26,7 @@
         <junit.jupiter.params>5.7.0</junit.jupiter.params>
         <junit.jupiter.api>5.7.0</junit.jupiter.api>
         <junit.jupiter.vintage.engine>5.7.0</junit.jupiter.vintage.engine>
+        <selenium.version>4.1.4</selenium.version>
     </properties>
 
     <dependencies>
@@ -50,6 +63,11 @@
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
             <version>${junit.jupiter.vintage.engine}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
         </dependency>
     </dependencies>
 </project>
