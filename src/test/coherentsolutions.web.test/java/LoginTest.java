@@ -1,57 +1,57 @@
-import Managers.WebDriverManager;
+import Pages.AccountCreationPage;
+import Pages.AccountPage;
 import Pages.LoginPage;
-import org.junit.BeforeClass;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import java.io.FileNotFoundException;
-import java.time.Duration;
 
-
-import static Managers.WebDriverManager.initDriver;
+import static Utils.ConstantUtils.LOGIN_URL;
+import static Utils.ConstantUtils.SIGN_IN_EMAIL;
 import static org.junit.Assert.assertTrue;
 
-public class LoginTest {
-
-    private static WebDriver driver;
-    private static Logger log = LogManager.getLogger();
-    // private PropertiesUtils propertiesUtils;
-    private static WebDriverWait webDriverWait;
-
-    @BeforeAll
-    public static void addSettings(){
-        driver = WebDriverManager.initDriver("chrome");
-        //   propertiesUtils = new PropertiesUtils();
-        webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
-    }
+public class LoginTest extends BaseTest {
 
     @Test
-    @DisplayName("Checking login and log out with valid credentials")
-    public void loginTest() throws Exception {
-        driver.get("http://automationpractice.com/index.php?controller=authentication&back=my-account");
+    @DisplayName("Checking creating account")
+    public void createAccountTest() throws Exception {
+        driver.get(LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver, webDriverWait);
         assertTrue("Account Creation Page is not displayed", loginPage.isLoginPageDisplay());
-        //    takeSnapShot(driver, String.format("screenshots/Step1_%s.png", now()));
         log.info("Account Creation Page opened");
 
         loginPage.enterEmail("emailtesttik@mailik.ru");
-        loginPage.clickCreateAccount();
-        assertTrue("Account Creation Form is not displayed", loginPage.isAccountCreationFormDisplay());
+        AccountCreationPage accountCreationPage = loginPage.clickCreateAccount();
+        assertTrue("Account Creation Form is not displayed", accountCreationPage.isAccountCreationFormDisplay());
         log.info("Account Creation Form displayed");
 
-        loginPage.enterFirstName("TestFirstName");
-        loginPage.enterLastName("TestLastName");
-        loginPage.enterPassword("TestPassword");
-        loginPage.enterAddress("TestAddress");
-        loginPage.enterCity("TestCity");
-        loginPage.chooseState("Alabama");
-        loginPage.enterZipCode("00000");
-        loginPage.enterMobilePhone("01234567");
-        loginPage.clickRegisterButton();
+        accountCreationPage.enterFirstName("TestFirstName");
+        accountCreationPage.enterLastName("TestLastName");
+        accountCreationPage.enterPassword("TestPassword");
+        accountCreationPage.enterAddress("TestAddress");
+        accountCreationPage.enterCity("TestCity");
+        accountCreationPage.chooseState("Alabama");
+        accountCreationPage.enterZipCode("00000");
+        accountCreationPage.enterMobilePhone("01234567");
+        AccountPage accountPage = accountCreationPage.clickRegisterButton();
+        assertTrue("User is not created, Account page is not opened", accountPage.isPageLoaded());
+        log.info("Account Page is displayed");
+        assertTrue("Firstname and LastName of the created user is not displayed", accountPage.getNameFromLink().equals("TestFirstName TestLastName"));
+        log.info("Firstname and LastName checked at the Account link");
+    }
+
+    @Test
+    @DisplayName("Checking logging with valid credentials")
+    public void loginTest() {
+        driver.get(LOGIN_URL);
+        LoginPage loginPage = new LoginPage(driver, webDriverWait);
+        assertTrue("Account Creation Page is not displayed", loginPage.isLoginPageDisplay());
+        log.info("Account Creation Page opened");
+
+        loginPage.enterLoginEmail(SIGN_IN_EMAIL);
+        loginPage.enterLoginPassword("TestPassword");
+        AccountPage accountPage = loginPage.clickSignInButton();
+        assertTrue("User is not logged in, Account page is not opened", accountPage.isPageLoaded());
+        log.info("Account Page is displayed");
+        assertTrue("Firstname and LastName of the logged in user is not displayed", accountPage.getNameFromLink().equals("TestFirstName TestLastName"));
+        log.info("Firstname and LastName checked at the Account link");
     }
 }
