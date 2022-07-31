@@ -27,6 +27,9 @@
         <junit.jupiter.api>5.7.0</junit.jupiter.api>
         <junit.jupiter.vintage.engine>5.7.0</junit.jupiter.vintage.engine>
         <selenium.version>4.1.4</selenium.version>
+        <log4j.core.version>2.17.2</log4j.core.version>
+        <log4j.api.version>2.17.2</log4j.api.version>
+        <org.slf4j>1.7.36</org.slf4j>
     </properties>
 
     <dependencies>
@@ -68,6 +71,21 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${org.slf4j}</version>
         </dependency>
     </dependencies>
 </project>
