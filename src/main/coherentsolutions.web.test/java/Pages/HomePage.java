@@ -1,5 +1,7 @@
 package Pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -9,11 +11,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
-public class HomePage extends BasePage{
+import static Pages.CartPage.parsePrice;
+
+public class HomePage extends BasePage {
 
     @FindBy(xpath = "//a[@title='View']")
-    private List<WebElement>  viewButton;
+    private List<WebElement> viewButton;
 
     @FindBy(xpath = "//a[@title='Add to cart']")
     private List<WebElement> addToCartButton;
@@ -33,6 +38,9 @@ public class HomePage extends BasePage{
     @FindBy(xpath = "//div[@class='right-block']//a[@class='product-name']")
     private List<WebElement> productName;
 
+    @FindBy(xpath = "//a[@title='View my shopping cart']")
+    private WebElement cartButton;
+
     Actions actions;
 
     public HomePage(WebDriver driver, WebDriverWait webDriverWait) {
@@ -46,7 +54,7 @@ public class HomePage extends BasePage{
         return new ProductPage(driver, webDriverWait);
     }
 
-    public boolean isHomePageDisplayed(){
+    public boolean isHomePageDisplayed() {
         webDriverWait.until(ExpectedConditions.visibilityOf(productSection));
         actions.moveToElement(productSection).perform();
         return productSection.isDisplayed();
@@ -58,20 +66,26 @@ public class HomePage extends BasePage{
         return new ProductPage(driver, webDriverWait);
     }
 
-    public String getProductPrice(int productNumber){
+    public double getProductPrice(int productNumber) {
         actions.moveToElement(productContainer.get(productNumber)).click().perform();
-       return productPrice.get(productNumber).getText();
+        String price = productPrice.get(productNumber).getText();
+        return parsePrice(price);
     }
 
-    public String getProductName(int productNumber){
+    public String getProductName(int productNumber) {
         actions.moveToElement(productContainer.get(productNumber)).click().perform();
-       return productName.get(productNumber).getText();
+        return productName.get(productNumber).getText();
     }
 
     public HomePage clickContinueShopping() {
         webDriverWait.until(ExpectedConditions.visibilityOf(continueShoppingButton));
         continueShoppingButton.click();
+        webDriverWait.until(ExpectedConditions.invisibilityOfAllElements(continueShoppingButton));
         return this;
     }
 
+    public CartPage clickCartButton() {
+        cartButton.click();
+        return new CartPage(driver, webDriverWait);
+    }
 }
