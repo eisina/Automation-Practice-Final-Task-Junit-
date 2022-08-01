@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static Utils.ConstantUtils.*;
 import static org.junit.Assert.*;
 
-public class CartTest extends BaseTest{
+public class CartTest extends BaseTest {
 
     @Test
     @DisplayName("Checking adding product to cart")
@@ -31,7 +31,6 @@ public class CartTest extends BaseTest{
         homePage.clickAddToCart(0);
         homePage.clickContinueShopping();
         log.info("First Product Added to cart");
-       // Thread.sleep(2000);
 
         double secondProductPrice = homePage.getProductPrice(1);
         String secondProductName = homePage.getProductName(1);
@@ -40,7 +39,6 @@ public class CartTest extends BaseTest{
         homePage.clickContinueShopping();
         log.info("Second Product Added to cart");
 
-    //    Thread.sleep(2000);
         double thirdProductPrice = homePage.getProductPrice(2);
         String thirdProductName = homePage.getProductName(2);
         homePage.clickAddToCart(2);
@@ -59,12 +57,12 @@ public class CartTest extends BaseTest{
         log.info("Information in Cart products got");
 
         double actualTotalPrice = actualFirstPrice + actualSecondPrice + actualThirdPrice;
-        assertEquals( expectedTotalPrice, actualTotalPrice, 1e-8);
+        assertEquals(expectedTotalPrice, actualTotalPrice, 1e-8);
         log.info("Total price compared");
 
-        assertEquals("Product name wrong",firstProductName , actualFirstProductName);
-        assertEquals("Product name wrong",secondProductName , actualSecondProductName);
-        assertEquals("Product name wrong",thirdProductName , actualThirdProductName);
+        assertEquals("Product name wrong", firstProductName, actualFirstProductName);
+        assertEquals("Product name wrong", secondProductName, actualSecondProductName);
+        assertEquals("Product name wrong", thirdProductName, actualThirdProductName);
         log.info("Name compared");
     }
 }

@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class AccountPage extends BasePage{
+public class AccountPage extends BasePage {
 
     @FindBy(xpath = "//a[@title='View my customer account']")
     private WebElement accountLink;
@@ -24,22 +24,22 @@ public class AccountPage extends BasePage{
         super(driver, webDriverWait);
     }
 
-    public String getNameFromLink(){
+    public String getNameFromLink() {
         return accountLink.getText();
     }
 
-    public boolean isPageLoaded(){
+    public boolean isPageLoaded() {
         webDriverWait.until(ExpectedConditions.visibilityOf(accountLink));
         return accountLink.isDisplayed();
     }
 
-    public WishListPage clickWishListButton(){
+    public WishListPage clickWishListButton() {
         myWishlistButton.click();
         return new WishListPage(driver, webDriverWait);
     }
 
 
-    public HomePage clickHomeButton(){
+    public HomePage clickHomeButton() {
         homeButton.click();
         return new HomePage(driver, webDriverWait);
     }

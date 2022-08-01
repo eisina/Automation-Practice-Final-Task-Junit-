@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class CartPage extends BasePage{
+public class CartPage extends BasePage {
 
     @FindBy(xpath = "//td[@class='cart_description']/p/a")
     private List<WebElement> productName;
@@ -23,17 +23,17 @@ public class CartPage extends BasePage{
         super(driver, webDriverWait);
     }
 
-    public String getProductName(int productNumber){
+    public String getProductName(int productNumber) {
         return productName.get(productNumber).getText();
     }
 
-    public Double getProductPrice(int productNumber){
-        String price= productPrice.get(productNumber).getText();
+    public Double getProductPrice(int productNumber) {
+        String price = productPrice.get(productNumber).getText();
         return parsePrice(price);
     }
 
-    public double getTotalPrice(){
-        String price= totalPrice.getText();
+    public double getTotalPrice() {
+        String price = totalPrice.getText();
         return parsePrice(price);
     }
 

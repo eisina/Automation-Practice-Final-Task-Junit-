@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class WishListPage extends BasePage{
+public class WishListPage extends BasePage {
 
     @FindBy(xpath = "//input[@id = 'name']")
     private WebElement nameField;
@@ -47,37 +47,37 @@ public class WishListPage extends BasePage{
         }
     }
 
-    public boolean isWishlistFormDisplayed(){
+    public boolean isWishlistFormDisplayed() {
         webDriverWait.until(ExpectedConditions.visibilityOf(wishlistForm));
         return wishlistForm.isDisplayed();
     }
 
-    public HomePage clickHomeButton(){
+    public HomePage clickHomeButton() {
         homeButton.click();
         return new HomePage(driver, webDriverWait);
     }
 
-    public WishListPage deleteWishList(){
+    public WishListPage deleteWishList() {
         deleteButton.click();
         driver.switchTo().alert().accept();
         return this;
     }
 
-    public WishListPage enterName(String name){
+    public WishListPage enterName(String name) {
         nameField.sendKeys(name);
         return this;
     }
 
-    public WishListPage clickSave(){
+    public WishListPage clickSave() {
         saveButton.click();
         return this;
     }
 
-    public String getWishlistName(){
+    public String getWishlistName() {
         return nameCell.getText();
     }
 
-    public String getProductsQuantity(){
+    public String getProductsQuantity() {
         return quantityCell.getText();
     }
 }

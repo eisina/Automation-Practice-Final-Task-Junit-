@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class ProductPage extends BasePage{
+public class ProductPage extends BasePage {
 
     @FindBy(xpath = ".product_list")
     private WebElement productSection;
@@ -30,7 +30,7 @@ public class ProductPage extends BasePage{
         return this;
     }
 
-    public boolean isProductPageDisplayed(){
+    public boolean isProductPageDisplayed() {
         webDriverWait.until(ExpectedConditions.visibilityOf(productBox));
         return productBox.isDisplayed();
     }
