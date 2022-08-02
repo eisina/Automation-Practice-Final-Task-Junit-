@@ -1,0 +1,11 @@
+{
+  "email": "emailtest%s@mail.ru",
+  "firstName": "TestFirstName",
+  "lastName": "TestLastName",
+  "password": "TestPassword",
+  "address": "TestAddress",
+  "city": "TestCity",
+  "state": "Alaska",
+  "zipCode": "00000",
+  "mobilePhone": "01234567"
+}

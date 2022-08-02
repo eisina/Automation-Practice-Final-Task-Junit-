@@ -1,18 +1,22 @@
 package Managers;
 
+import Utils.PropertiesUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.io.IOException;
 import java.time.Duration;
 
 public class WebDriverManager {
 
     private static WebDriver driver;
+    private static PropertiesUtils propertiesUtils;
 
-    public static WebDriver initDriver(String browser) {
+    public static WebDriver initDriver(String browser) throws IOException {
         if (driver == null) {
-            switch (browser) {
+            propertiesUtils = new PropertiesUtils();
+            switch (propertiesUtils.getProperty("browser")) {
                 case "chrome": {
                     driver = new ChromeDriver();
                     driver.manage().window().maximize();

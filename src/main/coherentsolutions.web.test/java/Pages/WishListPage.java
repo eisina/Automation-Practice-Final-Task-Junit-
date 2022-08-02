@@ -33,7 +33,6 @@ public class WishListPage extends BasePage {
     @FindBy(xpath = "(//td[count(//th[text()='Qty']/preceding-sibling::th)+1])[1]")
     private WebElement quantityCell;
 
-
     public WishListPage(WebDriver driver, WebDriverWait webDriverWait) {
         super(driver, webDriverWait);
     }

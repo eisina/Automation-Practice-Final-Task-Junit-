@@ -1,11 +1,12 @@
 import Pages.AccountCreationPage;
 import Pages.AccountPage;
 import Pages.LoginPage;
+import TestDataTypes.User;
+import Utils.TestDataUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static Utils.ConstantUtils.LOGIN_URL;
-import static Utils.ConstantUtils.SIGN_IN_EMAIL;
+import static Utils.ConstantUtils.*;
 import static org.junit.Assert.assertTrue;
 
 public class LoginTest extends BaseTest {
@@ -18,19 +19,21 @@ public class LoginTest extends BaseTest {
         assertTrue("Account Creation Page is not displayed", loginPage.isLoginPageDisplay());
         log.info("Account Creation Page opened");
 
-        loginPage.enterEmail("emailtesttik@mailik.ru");
+        TestDataUtils testDataUtils = new TestDataUtils();
+        User user = testDataUtils.getUserData();
+        loginPage.enterEmail(String.format(user.email, Math.random()));
         AccountCreationPage accountCreationPage = loginPage.clickCreateAccount();
         assertTrue("Account Creation Form is not displayed", accountCreationPage.isAccountCreationFormDisplay());
         log.info("Account Creation Form displayed");
 
-        accountCreationPage.enterFirstName("TestFirstName");
-        accountCreationPage.enterLastName("TestLastName");
-        accountCreationPage.enterPassword("TestPassword");
-        accountCreationPage.enterAddress("TestAddress");
-        accountCreationPage.enterCity("TestCity");
-        accountCreationPage.chooseState("Alabama");
-        accountCreationPage.enterZipCode("00000");
-        accountCreationPage.enterMobilePhone("01234567");
+        accountCreationPage.enterFirstName(user.firstName);
+        accountCreationPage.enterLastName(user.lastName);
+        accountCreationPage.enterPassword(user.password);
+        accountCreationPage.enterAddress(user.address);
+        accountCreationPage.enterCity(user.city);
+        accountCreationPage.chooseState(user.state);
+        accountCreationPage.enterZipCode(user.zipCode);
+        accountCreationPage.enterMobilePhone(user.mobilePhone);
         AccountPage accountPage = accountCreationPage.clickRegisterButton();
         assertTrue("User is not created, Account page is not opened", accountPage.isPageLoaded());
         log.info("Account Page is displayed");
@@ -47,7 +50,7 @@ public class LoginTest extends BaseTest {
         log.info("Account Creation Page opened");
 
         loginPage.enterLoginEmail(SIGN_IN_EMAIL);
-        loginPage.enterLoginPassword("TestPassword");
+        loginPage.enterLoginPassword(SIGN_IN_PASSWORD);
         AccountPage accountPage = loginPage.clickSignInButton();
         assertTrue("User is not logged in, Account page is not opened", accountPage.isPageLoaded());
         log.info("Account Page is displayed");
