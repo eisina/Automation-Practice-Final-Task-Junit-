@@ -60,11 +60,6 @@ public class AccountCreationPage extends BasePage {
         super(driver, webDriverWait);
     }
 
-    public AccountCreationPage enterEmail(String email) {
-        emailCreateAccountField.sendKeys(email);
-        return this;
-    }
-
     public AccountCreationPage enterFirstName(String firstName) {
         firstnameField.sendKeys(firstName);
         return this;

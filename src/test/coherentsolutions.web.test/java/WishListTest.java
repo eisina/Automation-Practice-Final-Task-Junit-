@@ -1,7 +1,7 @@
 import Pages.*;
 import io.qameta.allure.Description;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import static Utils.ConstantUtils.*;
 
@@ -12,40 +12,41 @@ public class WishListTest extends BaseTest {
     public void addAutoWishlistTest() {
         driver.get(LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver, webDriverWait);
-        Assert.assertTrue("Account Creation Page is not displayed", loginPage.isLoginPageDisplay());
+        Assert.assertTrue(loginPage.isLoginPageDisplay(), "Account Creation Page is not displayed");
         log.info("Account Creation Page opened");
 
         loginPage.enterLoginEmail(SIGN_IN_EMAIL);
         loginPage.enterLoginPassword("TestPassword");
         AccountPage accountPage = loginPage.clickSignInButton();
-        Assert.assertTrue("User is not logged in, Account page is not opened", accountPage.isPageLoaded());
+        Assert.assertTrue(accountPage.isPageLoaded(), "User is not logged in, Account page is not opened");
         log.info("Account Page opened");
 
         WishListPage wishListPage = accountPage.clickWishListButton();
-        Assert.assertTrue("Wishlist Page is not displayed", wishListPage.isWishlistFormDisplayed());
+        Assert.assertTrue(wishListPage.isWishlistFormDisplayed(), "Wishlist Page is not displayed");
         log.info("Wishlist Page opened");
 
-        Assert.assertFalse("Wishlist Present", wishListPage.isWishlistTableDisplayed());
+        Assert.assertFalse(wishListPage.isWishlistTableDisplayed(), "Wishlist Present");
         log.info("Wishlist not present initially");
 
         HomePage homePage = wishListPage.clickHomeButton();
-        Assert.assertTrue("Home Page is not displayed", homePage.isHomePageDisplayed());
+        Assert.assertTrue(homePage.isHomePageDisplayed(), "Home Page is not displayed");
         log.info("Home Page opened");
 
         ProductPage productPage = homePage.clickMoreButton(0);
-        Assert.assertTrue("Product Page is not displayed", productPage.isProductPageDisplayed());
+        Assert.assertTrue(productPage.isProductPageDisplayed(), "Product Page is not displayed");
         log.info("Product Page opened");
 
         productPage.clickWishlistButton();
-        Assert.assertEquals("Success message is not displayed", productPage.getSuccessMessage(), "Added to your wishlist.");
+        Assert.assertEquals(productPage.getSuccessMessage(), "Added to your wishlist.", "Success message is not displayed");
         log.info("Wishlist Button clicked");
 
         driver.get(WISHLIST_URL);
-        Assert.assertTrue("Wishlist is not displayed", wishListPage.isWishlistFormDisplayed());
+        Assert.assertTrue(wishListPage.isWishlistFormDisplayed(), "Wishlist is not displayed");
         log.info("Wishlist is displayed");
 
         wishListPage.deleteWishList();
-        Assert.assertFalse("Wishlist Present", wishListPage.isWishlistTableDisplayed());
+        wishListPage.waitWishlistTableNotDisplayed();
+        Assert.assertFalse(wishListPage.isWishlistTableDisplayed(), "Wishlist Present");
         log.info("Wishlist deleted");
     }
 
@@ -54,47 +55,48 @@ public class WishListTest extends BaseTest {
     public void createWishlistTest() {
         driver.get(LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver, webDriverWait);
-        Assert.assertTrue("Account Creation Page is not displayed", loginPage.isLoginPageDisplay());
+        Assert.assertTrue(loginPage.isLoginPageDisplay(), "Account Creation Page is not displayed");
         log.info("Account Creation Page opened");
 
         loginPage.enterLoginEmail(SIGN_IN_EMAIL);
         loginPage.enterLoginPassword("TestPassword");
         AccountPage accountPage = loginPage.clickSignInButton();
-        Assert.assertTrue("User is not logged in, Account page is not opened", accountPage.isPageLoaded());
+        Assert.assertTrue(accountPage.isPageLoaded(), "User is not logged in, Account page is not opened");
         log.info("Account Page opened");
 
         WishListPage wishListPage = accountPage.clickWishListButton();
-        Assert.assertTrue("Wishlist Page is not displayed", wishListPage.isWishlistFormDisplayed());
+        Assert.assertTrue(wishListPage.isWishlistFormDisplayed(), "Wishlist Page is not displayed");
         log.info("Wishlist Page opened");
 
         wishListPage.enterName("Test Wishlist");
         wishListPage.clickSave();
-        Assert.assertTrue("Wishlist Present", wishListPage.isWishlistTableDisplayed());
+        Assert.assertTrue(wishListPage.isWishlistTableDisplayed(), "Wishlist Present");
         log.info("Wishlist table displayed");
 
-        Assert.assertEquals("Wrong name", wishListPage.getWishlistName(), "Test Wishlist");
-        Assert.assertEquals("Wrong quantity", wishListPage.getProductsQuantity(), "0");
+        Assert.assertEquals(wishListPage.getWishlistName(), "Test Wishlist", "Wrong name");
+        Assert.assertEquals(wishListPage.getProductsQuantity(), "0", "Wrong quantity");
 
 
         HomePage homePage = wishListPage.clickHomeButton();
-        Assert.assertTrue("Home Page is not displayed", homePage.isHomePageDisplayed());
+        Assert.assertTrue(homePage.isHomePageDisplayed(), "Home Page is not displayed");
         log.info("Home Page opened");
 
         ProductPage productPage = homePage.clickMoreButton(0);
-        Assert.assertTrue("Product Page is not displayed", productPage.isProductPageDisplayed());
+        Assert.assertTrue(productPage.isProductPageDisplayed(), "Product Page is not displayed");
         log.info("Product Page opened");
 
         productPage.clickWishlistButton();
-        Assert.assertEquals("Success message is not displayed", productPage.getSuccessMessage(), "Added to your wishlist.");
+        Assert.assertEquals(productPage.getSuccessMessage(), "Added to your wishlist.", "Success message is not displayed");
         log.info("Wishlist Button clicked");
 
         driver.get(WISHLIST_URL);
-        Assert.assertTrue("Wishlist is not displayed", wishListPage.isWishlistFormDisplayed());
+        Assert.assertTrue(wishListPage.isWishlistFormDisplayed(), "Wishlist is not displayed");
         log.info("Wishlist is displayed");
-        Assert.assertEquals("Wrong quantity", wishListPage.getProductsQuantity(), "1");
+        Assert.assertEquals(wishListPage.getProductsQuantity(), "1", "Wrong quantity");
 
         wishListPage.deleteWishList();
-        Assert.assertFalse("Wishlist Present", wishListPage.isWishlistTableDisplayed());
+        wishListPage.waitWishlistTableNotDisplayed();
+        Assert.assertFalse(wishListPage.isWishlistTableDisplayed(), "Wishlist Present");
         log.info("Wishlist deleted");
     }
 }

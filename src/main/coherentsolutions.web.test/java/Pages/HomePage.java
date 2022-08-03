@@ -1,17 +1,13 @@
 package Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static Pages.CartPage.parsePrice;
 
@@ -49,6 +45,7 @@ public class HomePage extends BasePage {
     }
 
     public ProductPage clickMoreButton(int productNumber) {
+        webDriverWait.until(ExpectedConditions.visibilityOf(productContainer.get(productNumber)));
         actions.moveToElement(productContainer.get(productNumber)).click().perform();
         viewButton.get(productNumber).click();
         return new ProductPage(driver, webDriverWait);

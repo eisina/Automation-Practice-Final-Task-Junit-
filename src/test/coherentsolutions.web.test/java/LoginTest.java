@@ -13,7 +13,7 @@ public class LoginTest extends BaseTest {
 
     @Test
     @Description("Checking logging with valid credentials")
-    public void createAccountTest() throws Exception {
+    public void createAccountTest() {
         driver.get(LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver, webDriverWait);
         Assert.assertTrue(loginPage.isLoginPageDisplay(), "Account Creation Page is not displayed");
@@ -21,7 +21,8 @@ public class LoginTest extends BaseTest {
 
         TestDataUtils testDataUtils = new TestDataUtils();
         User user = testDataUtils.getUserData();
-        loginPage.enterEmail(String.format(user.email, Math.random()));
+        String userEmail = String.format(user.email, Math.random());
+        loginPage.enterEmail(userEmail);
         AccountCreationPage accountCreationPage = loginPage.clickCreateAccount();
         Assert.assertTrue(accountCreationPage.isAccountCreationFormDisplay(), "Account Creation Form is not displayed");
         log.info("Account Creation Form displayed");
@@ -37,8 +38,16 @@ public class LoginTest extends BaseTest {
         AccountPage accountPage = accountCreationPage.clickRegisterButton();
         Assert.assertTrue(accountPage.isPageLoaded(), "User is not created, Account page is not opened");
         log.info("Account Page is displayed");
+
         Assert.assertTrue(accountPage.getNameFromLink().equals(user.firstName + " " + user.lastName), "Firstname and LastName of the created user is not displayed");
         log.info("Firstname and LastName checked at the Account link");
+
+        loginPage = accountPage.clickSignOutButton();
+        loginPage.enterLoginEmail(userEmail);
+        loginPage.enterLoginPassword(user.password);
+        accountPage = loginPage.clickSignInButton();
+        Assert.assertTrue(accountPage.isPageLoaded(), "User is not logged in, Account page is not opened");
+        log.info("Account Page is displayed");
     }
 
     @Test

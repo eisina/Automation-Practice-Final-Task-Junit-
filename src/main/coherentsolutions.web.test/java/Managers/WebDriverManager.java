@@ -11,7 +11,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class WebDriverManager {
 
@@ -50,7 +49,7 @@ public class WebDriverManager {
 
                         driver = new RemoteWebDriver(url, caps);
                         driver.manage().window().maximize();
-                        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
                     }
                 }
             }

@@ -1,6 +1,5 @@
 package Pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -44,6 +43,10 @@ public class WishListPage extends BasePage {
         } catch (org.openqa.selenium.NoSuchElementException e) {
             return false;
         }
+    }
+
+    public void waitWishlistTableNotDisplayed() {
+      webDriverWait.until(ExpectedConditions.invisibilityOf(wishlistTable));
     }
 
     public boolean isWishlistFormDisplayed() {

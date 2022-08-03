@@ -20,6 +20,9 @@ public class AccountPage extends BasePage {
     @FindBy(xpath = "//a[@class='home']")
     private WebElement homeButton;
 
+    @FindBy(xpath = "//a[@class='logout']")
+    private WebElement sigOutButton;
+
     public AccountPage(WebDriver driver, WebDriverWait webDriverWait) {
         super(driver, webDriverWait);
     }
@@ -38,10 +41,13 @@ public class AccountPage extends BasePage {
         return new WishListPage(driver, webDriverWait);
     }
 
-
     public HomePage clickHomeButton() {
         homeButton.click();
         return new HomePage(driver, webDriverWait);
     }
 
+    public LoginPage clickSignOutButton() {
+        sigOutButton.click();
+        return new LoginPage(driver, webDriverWait);
+    }
 }

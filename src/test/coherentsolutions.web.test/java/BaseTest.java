@@ -12,9 +12,9 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-
 import java.io.IOException;
 import java.time.Duration;
+import static Managers.WebDriverManager.quitDriver;
 
 public class BaseTest {
 
@@ -26,14 +26,6 @@ public class BaseTest {
     public static void addSettings() throws IOException {
         driver = WebDriverManager.initDriver();
         webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
-    }
-
-    @AfterClass
-    public static void quit() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-        }
     }
 
     @Attachment
@@ -56,5 +48,11 @@ public class BaseTest {
             saveFailureScreenShot(driver);
             getBrowserDetails();
         }
+        driver.manage().deleteAllCookies();
+    }
+
+    @AfterClass
+    public static void quit() {
+        quitDriver();
     }
 }

@@ -18,6 +18,8 @@ public class CartPage extends BasePage {
     @FindBy(xpath = "//td[@data-title='Unit price']")
     private WebElement totalPrice;
 
+    @FindBy(xpath = "//h1[@id='cart_title']")
+    private WebElement cartTitle;
 
     public CartPage(WebDriver driver, WebDriverWait webDriverWait) {
         super(driver, webDriverWait);
@@ -32,13 +34,11 @@ public class CartPage extends BasePage {
         return parsePrice(price);
     }
 
-    public double getTotalPrice() {
-        String price = totalPrice.getText();
-        return parsePrice(price);
-    }
-
     public static Double parsePrice(String value) {
         return Double.valueOf((value.substring(1)));
     }
 
+    public boolean isCartPageDisplay() {
+        return cartTitle.isDisplayed();
+    }
 }

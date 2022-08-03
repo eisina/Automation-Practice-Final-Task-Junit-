@@ -9,7 +9,7 @@ public class CartTest extends BaseTest {
 
     @Test
     @Description("Checking adding product to cart")
-    public void addProductsTest() throws InterruptedException {
+    public void addProductsTest(){
         driver.get(LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver, webDriverWait);
         Assert.assertTrue(loginPage.isLoginPageDisplay(), "Account Creation Page is not displayed");
@@ -44,10 +44,12 @@ public class CartTest extends BaseTest {
         homePage.clickAddToCart(2);
         homePage.clickContinueShopping();
         log.info("Information on third product got");
-
         double expectedTotalPrice = firstProductPrice + secondProductPrice + thirdProductPrice;
 
         CartPage cartPage = homePage.clickCartButton();
+        Assert.assertTrue(cartPage.isCartPageDisplay(), "Cart Page is not displayed");
+        log.info("Cart opened");
+
         String actualFirstProductName = cartPage.getProductName(0);
         double actualFirstPrice = cartPage.getProductPrice(0);
         String actualSecondProductName = cartPage.getProductName(1);
