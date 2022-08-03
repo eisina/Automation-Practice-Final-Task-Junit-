@@ -1,28 +1,28 @@
 import Pages.*;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import io.qameta.allure.Description;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import static Utils.ConstantUtils.*;
-import static org.junit.Assert.*;
 
 public class CartTest extends BaseTest {
 
     @Test
-    @DisplayName("Checking adding product to cart")
+    @Description("Checking adding product to cart")
     public void addProductsTest() throws InterruptedException {
         driver.get(LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver, webDriverWait);
-        assertTrue("Account Creation Page is not displayed", loginPage.isLoginPageDisplay());
+        Assert.assertTrue(loginPage.isLoginPageDisplay(), "Account Creation Page is not displayed");
         log.info("Account Creation Page opened");
 
         loginPage.enterLoginEmail(SIGN_IN_EMAIL);
         loginPage.enterLoginPassword("TestPassword");
         AccountPage accountPage = loginPage.clickSignInButton();
-        assertTrue("User is not logged in, Account page is not opened", accountPage.isPageLoaded());
+        Assert.assertTrue(accountPage.isPageLoaded(), "User is not logged in, Account page is not opened");
         log.info("Account Page opened");
 
         HomePage homePage = accountPage.clickHomeButton();
-        assertTrue("Home Page is not displayed", homePage.isHomePageDisplayed());
+        Assert.assertTrue(homePage.isHomePageDisplayed(), "Home Page is not displayed");
         log.info("Home Page opened");
 
         double firstProductPrice = homePage.getProductPrice(0);
@@ -57,12 +57,12 @@ public class CartTest extends BaseTest {
         log.info("Information in Cart products got");
 
         double actualTotalPrice = actualFirstPrice + actualSecondPrice + actualThirdPrice;
-        assertEquals(expectedTotalPrice, actualTotalPrice, 1e-8);
+        Assert.assertEquals(expectedTotalPrice, actualTotalPrice);
         log.info("Total price compared");
 
-        assertEquals("Product name wrong", firstProductName, actualFirstProductName);
-        assertEquals("Product name wrong", secondProductName, actualSecondProductName);
-        assertEquals("Product name wrong", thirdProductName, actualThirdProductName);
+        Assert.assertEquals(actualFirstProductName, firstProductName, "Product name wrong");
+        Assert.assertEquals(actualSecondProductName, secondProductName, "Product name wrong");
+        Assert.assertEquals(actualThirdProductName, thirdProductName, "Product name wrong");
         log.info("Name compared");
     }
 }

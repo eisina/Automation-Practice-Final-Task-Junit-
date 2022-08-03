@@ -3,24 +3,11 @@ import Pages.AccountPage;
 import Pages.LoginPage;
 import TestDataTypes.User;
 import Utils.TestDataUtils;
-import io.qameta.allure.Allure;
-import io.qameta.allure.Attachment;
 import io.qameta.allure.Description;
-import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.Result;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import static Utils.ConstantUtils.*;
-import static org.junit.Assert.assertTrue;
 
 public class LoginTest extends BaseTest {
 
@@ -29,14 +16,14 @@ public class LoginTest extends BaseTest {
     public void createAccountTest() throws Exception {
         driver.get(LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver, webDriverWait);
-        assertTrue("Account Creation Page is not displayed", loginPage.isLoginPageDisplay());
+        Assert.assertTrue(loginPage.isLoginPageDisplay(), "Account Creation Page is not displayed");
         log.info("Account Creation Page opened");
 
         TestDataUtils testDataUtils = new TestDataUtils();
         User user = testDataUtils.getUserData();
         loginPage.enterEmail(String.format(user.email, Math.random()));
         AccountCreationPage accountCreationPage = loginPage.clickCreateAccount();
-        assertTrue("Account Creation Form is not displayed", accountCreationPage.isAccountCreationFormDisplay());
+        Assert.assertTrue(accountCreationPage.isAccountCreationFormDisplay(), "Account Creation Form is not displayed");
         log.info("Account Creation Form displayed");
 
         accountCreationPage.enterFirstName(user.firstName);
@@ -48,9 +35,9 @@ public class LoginTest extends BaseTest {
         accountCreationPage.enterZipCode(user.zipCode);
         accountCreationPage.enterMobilePhone(user.mobilePhone);
         AccountPage accountPage = accountCreationPage.clickRegisterButton();
-        assertTrue("User is not created, Account page is not opened", accountPage.isPageLoaded());
+        Assert.assertTrue(accountPage.isPageLoaded(), "User is not created, Account page is not opened");
         log.info("Account Page is displayed");
-        assertTrue("Firstname and LastName of the created user is not displayed", accountPage.getNameFromLink().equals("TestFirstName TestLadfdfstName"));
+        Assert.assertTrue(accountPage.getNameFromLink().equals(user.firstName + " " + user.lastName), "Firstname and LastName of the created user is not displayed");
         log.info("Firstname and LastName checked at the Account link");
     }
 
@@ -59,48 +46,15 @@ public class LoginTest extends BaseTest {
     public void loginTest() {
         driver.get(LOGIN_URL);
         LoginPage loginPage = new LoginPage(driver, webDriverWait);
-        assertTrue("Account Creation Page is not displayed", loginPage.isLoginPageDisplay());
+        Assert.assertTrue(loginPage.isLoginPageDisplay(), "Account Creation Page is not displayed");
         log.info("Account Creation Page opened");
 
         loginPage.enterLoginEmail(SIGN_IN_EMAIL);
         loginPage.enterLoginPassword(SIGN_IN_PASSWORD);
         AccountPage accountPage = loginPage.clickSignInButton();
-        assertTrue("User is not logged in, Account page is not opened", accountPage.isPageLoaded());
+        Assert.assertTrue(accountPage.isPageLoaded(), "User is not logged in, Account page is not opened");
         log.info("Account Page is displayed");
-        assertTrue("Firstname and LastName of the logged in user is not displayed", accountPage.getNameFromLink().equals("TestFirstName TestLastName"));
+        Assert.assertTrue(accountPage.getNameFromLink().equals("TestFirstName TestLastName"), "Firstname and LastName of the logged in user is not displayed");
         log.info("Firstname and LastName checked at the Account link");
     }
-//
-//    @Attachment (value = "Page screenshot", type = "image/png")
-//    public byte[] saveFailureScreenShot(WebDriver driver) {
-//        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-//    }
-//
-   @Attachment(value = "Page screenshot", type = "image/png")
-    public void saveScreenshot() throws IOException {
-           File screenshotAs = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-       ByteArrayInputStream fileAsButeArray = new ByteArrayInputStream(FileUtils.readFileToByteArray(screenshotAs));
-       Allure.addAttachment("Screenshot",fileAsButeArray );
-       }
-
-
-
-//    @Attachment
-//    public String getBrowserDetails() {
-//        Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
-//        String browserName = cap.getBrowserName().toLowerCase();
-//        String os = cap.getPlatform().toString();
-//        String version = cap.getVersion().toString();
-//        return browserName + " " + os + " " + version;
-//    }
-
-    @AfterEach
-     protected void addFailInfo(Result result) throws IOException {
-        if (!result.wasSuccessful()) {
-           saveScreenshot();
-         //   saveFailureScreenShot(driver);
-            //getBrowserDetails();
-        }
-    }
-
 }
