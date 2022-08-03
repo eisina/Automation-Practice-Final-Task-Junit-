@@ -18,7 +18,7 @@ public class BaseTest {
 
     @BeforeAll
     public static void addSettings() throws IOException {
-        driver = WebDriverManager.initDriver("chrome");
+        driver = WebDriverManager.initDriver();
         webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
