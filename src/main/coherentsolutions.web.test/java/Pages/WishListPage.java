@@ -1,5 +1,7 @@
 package Pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +34,8 @@ public class WishListPage extends BasePage {
     @FindBy(xpath = "(//td[count(//th[text()='Qty']/preceding-sibling::th)+1])[1]")
     private WebElement quantityCell;
 
+    private Logger log = LogManager.getLogger(WishListPage.class);
+
     public WishListPage(WebDriver driver, WebDriverWait webDriverWait) {
         super(driver, webDriverWait);
     }
@@ -46,40 +50,49 @@ public class WishListPage extends BasePage {
     }
 
     public void waitWishlistTableNotDisplayed() {
-      webDriverWait.until(ExpectedConditions.invisibilityOf(wishlistTable));
+        webDriverWait.until(ExpectedConditions.invisibilityOf(wishlistTable));
+        log.info("Waited until Wishlist Table disappear");
     }
 
     public boolean isWishlistFormDisplayed() {
         webDriverWait.until(ExpectedConditions.visibilityOf(wishlistForm));
+        log.info("Wishlist Page displayed");
         return wishlistForm.isDisplayed();
     }
 
     public HomePage clickHomeButton() {
         homeButton.click();
+        log.info("Home Page clicked");
         return new HomePage(driver, webDriverWait);
     }
 
     public WishListPage deleteWishList() {
         deleteButton.click();
+        log.info("Delete Button clicked");
         driver.switchTo().alert().accept();
+        log.info("Alert accepted");
         return this;
     }
 
     public WishListPage enterName(String name) {
         nameField.sendKeys(name);
+        log.info("Wishlist Name entered: " + name);
         return this;
     }
 
     public WishListPage clickSave() {
         saveButton.click();
+        log.info("Save button clicked");
         return this;
     }
 
     public String getWishlistName() {
+        log.info("Getting Wishlist Name");
         return nameCell.getText();
     }
 
     public String getProductsQuantity() {
+        log.info("Getting Product Quantity");
         return quantityCell.getText();
     }
 }

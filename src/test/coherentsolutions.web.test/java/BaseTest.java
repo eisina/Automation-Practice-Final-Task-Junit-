@@ -1,7 +1,6 @@
-import Managers.WebDriverManager;
+import Drivers.WebDriverFactory;
+import Utils.PropertiesUtils;
 import io.qameta.allure.Attachment;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -13,19 +12,20 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
-import static Managers.WebDriverManager.quitDriver;
 
 public class BaseTest {
 
-    protected static WebDriver driver;
-    protected static Logger log = LogManager.getLogger();
-    protected static WebDriverWait webDriverWait;
+    protected WebDriver driver;
+    protected WebDriverWait webDriverWait;
+    protected PropertiesUtils propertiesUtils;
 
     @BeforeClass
-    public static void addSettings() throws IOException {
-        driver = WebDriverManager.initDriver();
+    public void addSettings() throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        driver = WebDriverFactory.get();
         webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        propertiesUtils = new PropertiesUtils();
     }
 
     @Attachment
@@ -52,7 +52,7 @@ public class BaseTest {
     }
 
     @AfterClass
-    public static void quit() {
-        quitDriver();
+    public void quit() {
+        driver.quit();
     }
 }

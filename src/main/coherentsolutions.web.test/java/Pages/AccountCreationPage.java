@@ -1,5 +1,7 @@
 package Pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -56,57 +58,82 @@ public class AccountCreationPage extends BasePage {
     @FindBy(xpath = "//button[@name = 'submitAccount']")
     private WebElement registerButton;
 
+    private Logger log = LogManager.getLogger(AccountCreationPage.class);
+
     public AccountCreationPage(WebDriver driver, WebDriverWait webDriverWait) {
         super(driver, webDriverWait);
     }
 
     public AccountCreationPage enterFirstName(String firstName) {
         firstnameField.sendKeys(firstName);
+        log.info("First Name entered");
         return this;
     }
 
     public AccountCreationPage enterLastName(String lastName) {
         lastnameField.sendKeys(lastName);
+        log.info("Last Name entered: " + lastName);
         return this;
     }
 
     public AccountCreationPage enterPassword(String password) {
         passwordAccountField.sendKeys(password);
+        log.info("Password entered: " + password);
         return this;
     }
 
     public AccountCreationPage enterAddress(String address) {
         addressField.sendKeys(address);
+        log.info("Address entered: " + address);
         return this;
     }
 
     public AccountCreationPage enterCity(String city) {
         cityField.sendKeys(city);
+        log.info("City entered: " + city);
         return this;
     }
 
     public AccountCreationPage chooseState(String state) {
         stateField.sendKeys(state);
+        log.info("State entered: " + state);
         return this;
     }
 
     public AccountCreationPage enterZipCode(String zipCode) {
         zipCodeField.sendKeys(zipCode);
+        log.info("Zip Code entered: " + zipCode);
         return this;
     }
 
     public AccountCreationPage enterMobilePhone(String mobile) {
         mobileField.sendKeys(mobile);
+        log.info("Mobile entered: " + mobile);
         return this;
     }
 
     public boolean isAccountCreationFormDisplay() {
         webDriverWait.until(ExpectedConditions.visibilityOf(createAccountForm));
+        log.info("Account Page opened");
         return createAccountForm.isDisplayed();
     }
 
     public AccountPage clickRegisterButton() {
         registerButton.click();
+        log.info("Register Button clicked");
         return new AccountPage(driver, webDriverWait);
+    }
+
+
+    public void populateRequiredFields(String firstName, String lastName, String password, String address, String city, String state, String zipCode, String mobile) {
+        enterFirstName(firstName);
+        enterLastName(lastName);
+        enterPassword(password);
+        enterAddress(address);
+        enterCity(city);
+        chooseState(state);
+        enterZipCode(zipCode);
+        enterMobilePhone(mobile);
+        log.info("Required fields populated");
     }
 }

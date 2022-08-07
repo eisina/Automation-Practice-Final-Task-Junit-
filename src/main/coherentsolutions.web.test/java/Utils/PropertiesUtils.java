@@ -10,9 +10,10 @@ public class PropertiesUtils {
 
     private InputStream input;
     private Properties properties;
+    private final String filePath = "src/main/resources/config.properties";
 
     public PropertiesUtils() throws FileNotFoundException {
-        input = new FileInputStream("src/main/resources/config.properties");
+        input = new FileInputStream(filePath);
         properties = new Properties();
     }
 
