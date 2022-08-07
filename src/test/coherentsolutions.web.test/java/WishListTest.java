@@ -1,14 +1,18 @@
 import Pages.*;
 import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
+import static Pages.WishListPage.WISHLIST_SUCCESS_MESSAGE;
+
 
 public class WishListTest extends BaseTest {
 
     @Test
+    @Feature("WishList Test")
     @Description("Checking adding auto-created Wishlist")
     public void addAutoWishlistTest() throws IOException {
         driver.get(propertiesUtils.getProperty("loginUrl"));
@@ -30,9 +34,9 @@ public class WishListTest extends BaseTest {
         Assert.assertTrue(productPage.isProductPageDisplayed(), "Product Page is not displayed");
 
         productPage.clickWishlistButton();
-        Assert.assertEquals(productPage.getSuccessMessage(), "Added to your wishlist.", "Success message is not displayed");
+        Assert.assertEquals(productPage.getSuccessMessage(), WISHLIST_SUCCESS_MESSAGE, "Success message is not displayed");
 
-        driver.get(propertiesUtils.getProperty("wishlistIrl"));
+        driver.get(propertiesUtils.getProperty("wishlistUrl"));
         Assert.assertTrue(wishListPage.isWishlistFormDisplayed(), "Wishlist is not displayed");
 
         wishListPage.deleteWishList();
@@ -41,6 +45,7 @@ public class WishListTest extends BaseTest {
     }
 
     @Test
+    @Feature("WishList Test")
     @Description("Checking adding Wishlist and product to it")
     public void createWishlistTest() throws IOException {
         driver.get(propertiesUtils.getProperty("loginUrl"));
@@ -53,11 +58,12 @@ public class WishListTest extends BaseTest {
         WishListPage wishListPage = accountPage.clickWishListButton();
         Assert.assertTrue(wishListPage.isWishlistFormDisplayed(), "Wishlist Page is not displayed");
 
-        wishListPage.enterName("Test Wishlist");
+        String wishlistName = "Test Wishlist";
+        wishListPage.enterName(wishlistName);
         wishListPage.clickSave();
         Assert.assertTrue(wishListPage.isWishlistTableDisplayed(), "Wishlist Present");
 
-        Assert.assertEquals(wishListPage.getWishlistName(), "Test Wishlist", "Wrong name");
+        Assert.assertEquals(wishListPage.getWishlistName(), wishlistName, "Wrong name");
         Assert.assertEquals(wishListPage.getProductsQuantity(), "0", "Wrong quantity");
 
         HomePage homePage = wishListPage.clickHomeButton();
@@ -67,7 +73,7 @@ public class WishListTest extends BaseTest {
         Assert.assertTrue(productPage.isProductPageDisplayed(), "Product Page is not displayed");
 
         productPage.clickWishlistButton();
-        Assert.assertEquals(productPage.getSuccessMessage(), "Added to your wishlist.", "Success message is not displayed");
+        Assert.assertEquals(productPage.getSuccessMessage(), WISHLIST_SUCCESS_MESSAGE, "Success message is not displayed");
 
         driver.get(propertiesUtils.getProperty("wishlistUrl"));
         Assert.assertTrue(wishListPage.isWishlistFormDisplayed(), "Wishlist is not displayed");

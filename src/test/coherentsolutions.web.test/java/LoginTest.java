@@ -4,6 +4,7 @@ import Pages.LoginPage;
 import TestDataTypes.User;
 import Utils.TestDataUtils;
 import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 public class LoginTest extends BaseTest {
 
     @Test
+    @Feature("Login Test")
     @Description("Checking logging with valid credentials")
     public void createAccountTest() throws IOException {
         driver.get(propertiesUtils.getProperty("loginUrl"));
@@ -40,6 +42,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @Feature("Login Test")
     @Description("Checking logging with valid credentials")
     public void loginTest() throws IOException {
         driver.get(propertiesUtils.getProperty("loginUrl"));

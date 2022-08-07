@@ -1,5 +1,6 @@
 import Pages.*;
 import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -8,6 +9,7 @@ import java.io.IOException;
 public class CartTest extends BaseTest {
 
     @Test
+    @Feature("Cart Test")
     @Description("Checking adding product to cart")
     public void addProductsTest() throws IOException {
         driver.get(propertiesUtils.getProperty("loginUrl"));
